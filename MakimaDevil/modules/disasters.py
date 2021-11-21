@@ -9,7 +9,7 @@ from MakimaDevil import (
     DEVILS,
     SUPPORT_CHAT,
     ANGELS,
-    KILLERS,
+    GOD,
     SENSEI,
     dispatcher,
 )
@@ -261,12 +261,12 @@ def addtiger(update: Update, context: CallbackContext) -> str:
         data["whitelists"].remove(user_id)
         SENSEI.remove(user_id)
 
-    if user_id in KILLERS:
+    if user_id in GOD:
         message.reply_text("This user is already a Tiger.")
         return ""
 
-    data["KILLERS"].append(user_id)
-    KILLERS.append(user_id)
+    data["GOD"].append(user_id)
+    GOD.append(user_id)
 
     with open(ELEVATED_USERS_FILE, "w") as outfile:
         json.dump(data, outfile, indent=4)
@@ -434,10 +434,10 @@ def removetiger(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
 
-    if user_id in KILLERS:
+    if user_id in GOD:
         message.reply_text("Demoting to normal user")
-        KILLERS.remove(user_id)
-        data["KILLERS"].remove(user_id)
+        GOD.remove(user_id)
+        data["GOD"].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, "w") as outfile:
             json.dump(data, outfile, indent=4)
@@ -484,7 +484,7 @@ def tigerlist(update: Update, context: CallbackContext):
         "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
     )
     bot = context.bot
-    for each_user in KILLERS:
+    for each_user in GOD:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
@@ -558,7 +558,7 @@ def devlist(update: Update, context: CallbackContext):
 # *List all special users:*
 #  ❍ /DEVILS*:* Lists all Devils
 #  ❍ /ANGELS*:* Lists all Angelss
-#  ❍ /KILLERS*:* Lists all KILLERS disasters
+#  ❍ /GOD*:* Lists all GOD disasters
 #  ❍ /SENSEI*:* Lists all Senseis
 #  ❍ /heroes*:* Lists all Hero Association members
 #  ❍ /adddevils*:* Adds a user to devils
@@ -658,7 +658,7 @@ UNTIGER_HANDLER = CommandHandler(("removetiger"), removetiger)
 UNWHITELIST_HANDLER = CommandHandler(("removewhitelist", "removewolf"), removewhitelist)
 
 WHITELISTLIST_HANDLER = CommandHandler(["whitelistlist", "SENSEI"], whitelistlist)
-TIGERLIST_HANDLER = CommandHandler(["KILLERS"], tigerlist)
+TIGERLIST_HANDLER = CommandHandler(["GOD"], tigerlist)
 SUPPORTLIST_HANDLER = CommandHandler(["supportlist", "ANGELS"], supportlist)
 SUDOLIST_HANDLER = CommandHandler(["sudolist", "DEVILS"], sudolist)
 DEVLIST_HANDLER = CommandHandler(["devlist", "heroes"], devlist)
